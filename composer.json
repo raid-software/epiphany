@@ -1,5 +1,5 @@
 {
-    "name": "jmathai/epiphany",
+    "name": "raid-software/epiphany",
     "require": {
         "php": ">=5.2.0"
     },
