@@ -25,6 +25,7 @@ class EpiRoute
   const httpPost= 'POST';
   const httpPut = 'PUT';
   const httpDelete = 'DELETE';
+  const httpHead = 'HEAD';
 
   /**
    * get('/', 'function');
@@ -36,6 +37,7 @@ class EpiRoute
   public function get($route, $callback, $isApi = false)
   {
     $this->addRoute($route, $callback, self::httpGet, $isApi);
+    $this->addRoute($route, $callback, self::httpHead, $isApi);
   }
 
   /**
@@ -72,6 +74,18 @@ class EpiRoute
   public function delete($route, $callback, $isApi = false)
   {
     $this->addRoute($route, $callback, self::httpDelete, $isApi);
+  }
+
+  /**
+   * head('/', 'function')
+   * @name  head
+   * @author  Jonas Boserup <jonas@radid.dk>
+   * @param string $route
+   * @param mixed $callback
+   */
+  public function head($route, $callback, $isApi = false)
+  {
+    $this->addRoute($route, $callback, self::httpHead, $isApi);
   }
 
   /**
@@ -147,7 +161,11 @@ class EpiRoute
           header('Content-Type: application/json');
 
         header('Content-Length:' . strlen($response));
-        echo $response;
+
+        // Only return body when requst is no HEAD
+        if($httpMethod !== "HEAD") {
+          echo $response;
+        }
       }
     }
   }
